@@ -3,7 +3,6 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { WalletProvider } from "@/providers/WalletProvider";
-import { StreamflowProvider } from '@/providers/StreamflowProvider';
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -22,9 +21,7 @@ export default function RootLayout({
       <body className={inter.className}>
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false}>
           <WalletProvider>
-            <StreamflowProvider>
               {children}
-            </StreamflowProvider>
           </WalletProvider>
         </ThemeProvider>
         <svg className="hidden">

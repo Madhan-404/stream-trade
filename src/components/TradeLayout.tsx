@@ -1,48 +1,41 @@
 "use client"
 
 import { useState } from 'react'
-import { Input } from "@/components/ui/input"
-import { Button } from "@/components/ui/button"
-import { MoonIcon, SunIcon } from "@radix-ui/react-icons"
-import { useTheme } from "next-themes"
+import { TradingCard } from '@/components/TradingCard'
+import { ScrollArea } from "@/components/ui/scroll-area"
+import { getTokenName } from '@/utils/tokenNameMapping'
 
-export default function TradeLayout({ children }: { children: React.ReactNode }) {
-  const [wallet, setWallet] = useState<string | null>(null)
-  const { theme, setTheme } = useTheme()
+const hardcodedStreams = [
+  { name: 'BONK', symbol: 'BONK', listingPrice: 0.00001, remainingTokens: 800000, totalTokens: 1000000, mint: 'DezXAZ8z7PnrnRJjz3wXBoRgixCa6xjnB7YaB1pPB263', currentPrice: 0.000015 },
+  { name: 'Tensor', symbol: 'TNSR', listingPrice: 0.5, remainingTokens: 50000, totalTokens: 100000, mint: 'TENSoLbpY8GVDSqNZ5tDWv5ZPqkMgkYMXgoimkHsakX', currentPrice: 0.55 },
+  { name: 'Jupiter', symbol: 'JUP', listingPrice: 1.2, remainingTokens: 75000, totalTokens: 100000, mint: 'JUPyiwrYJFskUPiHa7hkeR8VUtAeFoSYbKedZNsDvCN', currentPrice: 1.25 },
+]
 
-  const connectWallet = async () => {
-    // Implement Solana wallet connection logic here
-    setWallet("Connected")
-  }
+export default function TradeLayout({ children, searchTerm }: { children: React.ReactNode, searchTerm: string }) {
+  const filteredStreams = searchTerm
+    ? hardcodedStreams.filter(stream => 
+        stream.mint.toLowerCase() === searchTerm.toLowerCase() ||
+        getTokenName(stream.mint).toLowerCase() === searchTerm.toLowerCase()
+      )
+    : hardcodedStreams
 
   return (
-    <div className="flex flex-col min-h-screen bg-background text-foreground">
-      {/* Header */}
-      <header className="h-[20vh] flex items-center justify-between px-6 border-b">
-        <h1 className="text-2xl font-bold">Stream.trade</h1>
-        <div className="flex items-center space-x-4">
-          <Input className="w-64" placeholder="Search..." />
-          <Button onClick={connectWallet}>
-            {wallet ? 'Connected' : 'Connect Wallet'}
-          </Button>
-        </div>
-      </header>
-
-      {/* Main content */}
-      <main className="flex-1">
-        {children}
-      </main>
-
-      {/* Footer */}
-      <footer className="h-[8vh] flex items-center justify-center border-t">
-        <Button
-          variant="ghost"
-          size="icon"
-          onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-        >
-          {theme === 'dark' ? <SunIcon className="h-5 w-5" /> : <MoonIcon className="h-5 w-5" />}
-        </Button>
-      </footer>
+    <div className="flex-1 flex">
+      <div className="flex-1 p-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-6">
+        {filteredStreams.map((stream, index) => (
+          <TradingCard key={index} {...stream} />
+        ))}
+      </div>
+      <aside className="w-80 border-l p-4">
+        <h2 className="text-xl font-bold mb-4">Recent Activity</h2>
+        <ScrollArea className="h-[calc(100vh-20vh)]">
+          <div className="space-y-4">
+            <p>BONK stream created</p>
+            <p>TNSR tokens withdrawn</p>
+            <p>JUP stream modified</p>
+          </div>
+        </ScrollArea>
+      </aside>
     </div>
   )
 }
