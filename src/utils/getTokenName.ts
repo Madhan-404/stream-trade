@@ -19,9 +19,9 @@ export const getTokenName = async (mintAddress: string): Promise<string | null> 
 
     console.log('API response:', response.data);
     const { result } = response.data;
-    const tokenName = result?.fungibleInfo?.name || null;
-    console.log(`Token name for ${mintAddress}: ${tokenName}`);
-    return tokenName;
+    const tokenSymbol = result?.token_info?.symbol;
+    console.log(`Token symbol for ${mintAddress}: ${tokenSymbol}`);
+    return tokenSymbol;
   } catch (error) {
     console.error('Error fetching token name:', error);
     return null;

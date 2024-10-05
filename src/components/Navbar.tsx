@@ -1,7 +1,7 @@
 "use client"
 
 import WalletButton from "@/components/WalletButton"
-import { MoonIcon, SunIcon, Briefcase } from "lucide-react"
+import { MoonIcon, SunIcon, Briefcase, SearchIcon } from "lucide-react"
 import { useTheme } from "next-themes"
 import { Button } from "@/components/ui/button"
 import { SquirrelIcon } from "lucide-react"
@@ -19,9 +19,8 @@ import { WalletAdapterNetwork } from '@solana/wallet-adapter-base'
 import { LogOut } from "lucide-react"
 import { useState } from 'react'
 import { Input } from "@/components/ui/input"
-import { SearchIcon } from "lucide-react"
 
-export default function Navbar() {
+export default function Navbar({ onSearch }: { onSearch: (term: string) => void }) {
   const { theme, setTheme } = useTheme()
   const { network, setNetwork } = useNetworkState()
   const { connected, disconnect, publicKey } = useWallet()
@@ -45,7 +44,7 @@ export default function Navbar() {
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault()
-    // Pass the searchTerm to the parent component or use a global state management solution
+    onSearch(searchTerm)
   }
 
   return (
@@ -54,9 +53,10 @@ export default function Navbar() {
         <SquirrelIcon className="h-6 w-6" />
         <h1 className="text-xl font-bold">Stream.trade</h1>
       </Link>
+
       <form onSubmit={handleSearch} className="flex-1 flex justify-center relative">
         <Input
-          className="w-64 mx-4 pl-10"
+          className="mx-4 pl-10"
           placeholder="Search by mint address or token name..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
@@ -65,8 +65,23 @@ export default function Navbar() {
           <SearchIcon className="h-4 w-4" />
         </Button>
       </form>
-      <div className="flex items-center space-x-4">
         <WalletButton />
+      <div className=" flex items-center space-x-4 px-4">
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="outline" size="sm">
+              {network === WalletAdapterNetwork.Mainnet ? 'Mainnet' : 'Devnet'}
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent>
+            <DropdownMenuItem onClick={() => handleNetworkChange(WalletAdapterNetwork.Mainnet)}>
+              Mainnet
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => handleNetworkChange(WalletAdapterNetwork.Devnet)}>
+              Devnet
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
         <Button
           variant="ghost"
           size="icon"
@@ -74,6 +89,7 @@ export default function Navbar() {
         >
           {theme === 'dark' ? <SunIcon className="h-5 w-5" /> : <MoonIcon className="h-5 w-5" />}
         </Button>
+
         <Button
           variant="ghost"
           size="icon"
@@ -81,13 +97,16 @@ export default function Navbar() {
         >
           <Briefcase className="h-5 w-5" />
         </Button>
-        <Button
-          variant="ghost"
-          size="icon"
-          onClick={handleDisconnect}
-        >
-          <LogOut className="h-5 w-5" />
-        </Button>
+
+        {connected && (
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={handleDisconnect}
+          >
+            <LogOut className="h-5 w-5" />
+          </Button>
+        )}
       </div>
     </nav>
   )
