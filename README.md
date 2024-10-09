@@ -1,37 +1,27 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+#  STREAM-TRADE 🌊
 
-## Getting Started
+# Secondary Markets for your vested contracts
 
-First, run the development server:
+Have you ever missed a drop or felt that your liquidity is locked due to contracts ??
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+or 
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Do you want to speculate and align with trading values over time !!
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Stream-trade unlocks these for you by listing, delisting and exchanging contracts for some SOL.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+ - We Use Streamflow's JS SDK for cancellation and transfers and the Rust SDK for transferring the contracts through the marketplace program.
 
-## Learn More
+ Give us a follow [@_streamtrade](https://x.com/_streamtrade) on X 👀
 
-To learn more about Next.js, take a look at the following resources:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Refer to the marketplace program [here](https://github.com/Madhan-404/stream)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- /trade - for the trading page
+- /portfolio - to look into your portfolio
 
-## Deploy on Vercel
+# Commands
+ - npm run dev
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+ 
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
-# stream-trade
